@@ -1332,8 +1332,9 @@ void SKFlatMaker::beginRun(const Run & iRun, const EventSetup & iSetup)
 
   bool changedConfig;
   if(!hltConfig_.init(iRun, iSetup, processName, changedConfig)){
-    LogError("HLTMuonVal") << "Initialization of HLTConfigProvider failed!!";
-    return;
+    //LogError("HLTMuonVal") << "Initialization of HLTConfigProvider failed!!";
+    //return;
+    cout << "Initialization of HLTConfigProvider failed, but keep the process..." << endl;
   }
 
   if(theDebugLevel) cout << "[SKFlatMaker::beginRun] finished" << endl;
@@ -2177,6 +2178,7 @@ void SKFlatMaker::fillMuons(const edm::Event &iEvent, const edm::EventSetup& iSe
     // -- HLT object matching -- //
     ULong64_t pathbits=0;
     ULong64_t filterbits=0;
+    /*
     for(pat::TriggerObjectStandAlone obj : *triggerObject){
       if(deltaR(obj,imuon)<0.3){
 	obj.unpackPathNames(trigNames);
@@ -2264,6 +2266,7 @@ void SKFlatMaker::fillMuons(const edm::Event &iEvent, const edm::EventSetup& iSe
 	if(obj.filter("hltTripleTrkMuFiltered5NoVtx")) filterbits|=ULong64_t(1)<<46;
       }
     }
+    */
     muon_pathbits.push_back(pathbits);
     muon_filterbits.push_back(filterbits);
   } // -- End of imuon iteration -- //
@@ -2275,7 +2278,7 @@ void SKFlatMaker::fillMuons(const edm::Event &iEvent, const edm::EventSetup& iSe
 //////////////////////////////
 void SKFlatMaker::fillElectrons(const edm::Event &iEvent, const edm::EventSetup& iSetup)
 {
-  
+  return;
   if(theDebugLevel) cout << "[SKFlatMaker::fillElectrons] called" << endl;
   // -- BeamSpot -- //
   edm::Handle<reco::BeamSpot> beamSpotHandle;
@@ -2882,7 +2885,7 @@ void SKFlatMaker::fillGENInfo(const edm::Event &iEvent)
 /////////////////////////
 void SKFlatMaker::fillPhotons(const edm::Event &iEvent)
 {
-  
+  return;
   edm::Handle< edm::View<pat::Photon> > PhotonHandle;
   iEvent.getByToken(PhotonToken, PhotonHandle);
   

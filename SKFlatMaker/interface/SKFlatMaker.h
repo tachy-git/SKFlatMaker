@@ -116,10 +116,12 @@
 #include "FWCore/Common/interface/TriggerNames.h" // -- Used to access the names and indices of the triggers corresponding to a particular TriggerResults object
 #include "FWCore/Common/interface/TriggerResultsByName.h" // --  Class which provides methods to access trigger results
 #include "DataFormats/Common/interface/TriggerResults.h" // -- The trigger path results are maintained here as a sequence of entries, one per trigger path
+/*
 #include "DataFormats/HLTReco/interface/TriggerEvent.h" // -- The single EDProduct to be saved for each event (AOD case) describing the (HLT) trigger table
 #include "DataFormats/HLTReco/interface/TriggerObject.h" // --  A single trigger object (e.g., an isolated muon, or MET) described by its 4-momentum and physics type
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h" // -- Analysis-level trigger object class (stand-alone). (within the 'pat' namespace.)
 #include "HLTrigger/HLTcore/interface/HLTConfigProvider.h" // -- This class provides access routines to get hold of the HLT Configuration
+*/
 
 
 ////////////////
@@ -213,7 +215,7 @@ class SKFlatMaker : public edm::EDAnalyzer
   std::string processName;
   std::string theElectronID;
   
-  HLTConfigProvider hltConfig_;
+  //HLTConfigProvider hltConfig_;
   
   // -- Tokens (for 76X) -- //
 
@@ -298,8 +300,8 @@ class SKFlatMaker : public edm::EDAnalyzer
   bool theStoreFatJetFlag;                // Yes or No to store FatJet
   bool theStoreMETFlag;                // Yes or No to store MET
   bool theStorePuppiMETFlag;                // Yes or No to store Puppi MET
-  bool theStoreHLTReportFlag;             // Yes or No to store HLT reuslts (list of triggers fired)
-  bool theStoreHLTObjectFlag;
+  //bool theStoreHLTReportFlag;             // Yes or No to store HLT reuslts (list of triggers fired)
+  //bool theStoreHLTObjectFlag;
   bool theStoreMuonFlag;
   bool theStoreTauFlag;
   bool theStoreElectronFlag;
@@ -322,7 +324,7 @@ class SKFlatMaker : public edm::EDAnalyzer
   
   edm::ESHandle<TransientTrackBuilder> theTTBuilder;
 
-  std::vector<std::string > HLTName_WildCard;
+  //std::vector<std::string > HLTName_WildCard;
   
   bool Flag_goodVertices;
   bool Flag_globalSuperTightHalo2016Filter;
@@ -377,7 +379,7 @@ class SKFlatMaker : public edm::EDAnalyzer
   float L1PrefireReweight_Down;
 
   //==== trigger object
-
+  /*
   vector<string> HLT_TriggerName;
   vector<string> HLT_TriggerFilterName;
   vector<float> HLTObject_pt;
@@ -385,6 +387,7 @@ class SKFlatMaker : public edm::EDAnalyzer
   vector<float> HLTObject_phi;
   vector<string> HLTObject_FiredFilters;
   vector<string> HLTObject_FiredPaths;
+  */
 
   //==== Jet
 

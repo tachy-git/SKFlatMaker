@@ -1,0 +1,23 @@
+executable      = run_skflatmaker.sh
+arguments       = $(file)
+output          = run_$(file).stdout
+error           = run_$(file).stderr
+log             = run.log
+
+Getenv=True
+
+should_transfer_files       = YES
+#when_to_transfer_output     = ON_EXIT
+#transfer_input_Files        = $(sample)
+#transfer_output_files       = SKFlatNtuple_$(sample)
+
+## you can request more resource
+#request_memory = 8000
+#request_cpus = 4
+
+## you can require some conditions
+#requirements = TARGET.FileSystemDomain==My.FileSystemDomain
+
+queue file from file.lst
+## you can submit many jobs at once
+#queue 10
