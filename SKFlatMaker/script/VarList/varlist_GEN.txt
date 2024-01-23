@@ -4,6 +4,7 @@ float	gen_pt	1
 float	gen_mass	1
 float	gen_charge	1
 int	gen_mother_index	1
+int gen_daughter_index  1
 int	gen_status	1
 int	gen_PID	1
 bool	gen_isPrompt	1

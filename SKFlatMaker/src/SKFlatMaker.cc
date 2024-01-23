@@ -314,6 +314,7 @@ void SKFlatMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
   gen_mass.clear();
   gen_charge.clear();
   gen_mother_index.clear();
+  gen_daughter_index.clear();
   gen_status.clear();
   gen_PID.clear();
   gen_isPrompt.clear();
@@ -1199,6 +1200,7 @@ void SKFlatMaker::beginJob()
     DYTree->Branch("gen_mass", "vector<float>", &gen_mass);
     DYTree->Branch("gen_charge", "vector<float>", &gen_charge);
     DYTree->Branch("gen_mother_index", "vector<int>", &gen_mother_index);
+    DYTree->Branch("gen_daughter_index", "vector<int>", &gen_daughter_index);
     DYTree->Branch("gen_status", "vector<int>", &gen_status);
     DYTree->Branch("gen_PID", "vector<int>", &gen_PID);
     DYTree->Branch("gen_isPrompt", "vector<bool>", &gen_isPrompt);
@@ -2841,14 +2843,20 @@ void SKFlatMaker::fillGENInfo(const edm::Event &iEvent)
     
     int idx = -1;
     for( reco::GenParticleCollection::const_iterator mit = genParticles->begin(); mit != genParticles->end(); ++mit ){
-      if( it->mother()==&(*mit) ){
-        idx = std::distance(genParticles->begin(),mit);
-        break;
+      for(int imom=0; imom<it->numberOfMothers; imom++){
+        if( it->mother(imom)==&(*mit) ){
+          idx = std::distance(genParticles->begin(),mit);
+          gen_mother_index.push_back( idx );
+        }
+      }
+      for(int idau=0; idau<it->numberOfDaughters; idau++){
+        if( it->daughter(idau)==&(*mit) ){
+          idx = std::distance(genParticles->begin(),mit);
+          gen_daughter_index.push_back( idx );
+        }
       }
     }
-    
-    gen_mother_index.push_back( idx );
-    
+
   }
    
   edm::Handle<GenEventInfoProduct> genEvtInfo;

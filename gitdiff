@@ -1,0 +1,85 @@
+diff --git a/SKFlatMaker/interface/SKFlatMaker.h b/SKFlatMaker/interface/SKFlatMaker.h
+index f16b63e..d6b0834 100644
+--- a/SKFlatMaker/interface/SKFlatMaker.h
++++ b/SKFlatMaker/interface/SKFlatMaker.h
+@@ -735,6 +735,7 @@ class SKFlatMaker : public edm::EDAnalyzer
+   vector<float> gen_mass;
+   vector<float> gen_charge;
+   vector<int> gen_mother_index;
++  vector<int> gen_daughter_index;
+   vector<int> gen_status;
+   vector<int> gen_PID;
+   vector<bool> gen_isPrompt;
+diff --git a/SKFlatMaker/script/VarList/varlist_GEN.txt b/SKFlatMaker/script/VarList/varlist_GEN.txt
+index 2532052..28e51ef 100644
+--- a/SKFlatMaker/script/VarList/varlist_GEN.txt
++++ b/SKFlatMaker/script/VarList/varlist_GEN.txt
+@@ -4,6 +4,7 @@ float	gen_pt	1
+ float	gen_mass	1
+ float	gen_charge	1
+ int	gen_mother_index	1
++int gen_daughter_index  1
+ int	gen_status	1
+ int	gen_PID	1
+ bool	gen_isPrompt	1
+diff --git a/SKFlatMaker/src/SKFlatMaker.cc b/SKFlatMaker/src/SKFlatMaker.cc
+index 86a6b8b..4361e01 100644
+--- a/SKFlatMaker/src/SKFlatMaker.cc
++++ b/SKFlatMaker/src/SKFlatMaker.cc
+@@ -314,6 +314,7 @@ void SKFlatMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
+   gen_mass.clear();
+   gen_charge.clear();
+   gen_mother_index.clear();
++  gen_daughter_index.clear();
+   gen_status.clear();
+   gen_PID.clear();
+   gen_isPrompt.clear();
+@@ -1199,6 +1200,7 @@ void SKFlatMaker::beginJob()
+     DYTree->Branch("gen_mass", "vector<float>", &gen_mass);
+     DYTree->Branch("gen_charge", "vector<float>", &gen_charge);
+     DYTree->Branch("gen_mother_index", "vector<int>", &gen_mother_index);
++    DYTree->Branch("gen_daughter_index", "vector<int>", &gen_daughter_index);
+     DYTree->Branch("gen_status", "vector<int>", &gen_status);
+     DYTree->Branch("gen_PID", "vector<int>", &gen_PID);
+     DYTree->Branch("gen_isPrompt", "vector<bool>", &gen_isPrompt);
+@@ -2841,14 +2843,20 @@ void SKFlatMaker::fillGENInfo(const edm::Event &iEvent)
+     
+     int idx = -1;
+     for( reco::GenParticleCollection::const_iterator mit = genParticles->begin(); mit != genParticles->end(); ++mit ){
+-      if( it->mother()==&(*mit) ){
+-        idx = std::distance(genParticles->begin(),mit);
+-        break;
++      for(int imom=0; imom<it->numberOfMothers; imom++){
++        if( it->mother(imom)==&(*mit) ){
++          idx = std::distance(genParticles->begin(),mit);
++          gen_mother_index.push_back( idx );
++        }
++      }
++      for(int idau=0; idau<it->numberOfDaughters; idau++){
++        if( it->daughter(idau)==&(*mit) ){
++          idx = std::distance(genParticles->begin(),mit);
++          gen_daughter_index.push_back( idx );
++        }
+       }
+     }
+-    
+-    gen_mother_index.push_back( idx );
+-    
++
+   }
+    
+   edm::Handle<GenEventInfoProduct> genEvtInfo;
+diff --git a/SKFlatMaker/test/RunSKFlatMaker.py b/SKFlatMaker/test/RunSKFlatMaker.py
+index 5240cbf..8d75aa2 100644
+--- a/SKFlatMaker/test/RunSKFlatMaker.py
++++ b/SKFlatMaker/test/RunSKFlatMaker.py
+@@ -185,7 +185,8 @@ process.recoTree.Jet = cms.untracked.InputTag("slimmedJets") # -- miniAOD -- #
+ process.recoTree.FatJet = cms.untracked.InputTag("slimmedJetsAK8")
+ process.recoTree.MET = cms.InputTag("slimmedMETs")
+ process.recoTree.PuppiMET = cms.InputTag("slimmedMETsPuppi")
+-process.recoTree.GenParticle = cms.untracked.InputTag("prunedGenParticles") # -- miniAOD -- #
++#process.recoTree.GenParticle = cms.untracked.InputTag("prunedGenParticles") # -- miniAOD -- #
++process.recoTree.GenParticle = cms.untracked.InputTag("GenParticles") # -- miniAOD -- #
+ 
+ for key in weightmap:
+   if key=="AlphaSScale":

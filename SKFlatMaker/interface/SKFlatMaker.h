@@ -735,6 +735,7 @@ class SKFlatMaker : public edm::EDAnalyzer
   vector<float> gen_mass;
   vector<float> gen_charge;
   vector<int> gen_mother_index;
+  vector<int> gen_daughter_index;
   vector<int> gen_status;
   vector<int> gen_PID;
   vector<bool> gen_isPrompt;

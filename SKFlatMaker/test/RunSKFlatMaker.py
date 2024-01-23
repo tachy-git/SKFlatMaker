@@ -185,7 +185,8 @@ process.recoTree.Jet = cms.untracked.InputTag("slimmedJets") # -- miniAOD -- #
 process.recoTree.FatJet = cms.untracked.InputTag("slimmedJetsAK8")
 process.recoTree.MET = cms.InputTag("slimmedMETs")
 process.recoTree.PuppiMET = cms.InputTag("slimmedMETsPuppi")
-process.recoTree.GenParticle = cms.untracked.InputTag("prunedGenParticles") # -- miniAOD -- #
+#process.recoTree.GenParticle = cms.untracked.InputTag("prunedGenParticles") # -- miniAOD -- #
+process.recoTree.GenParticle = cms.untracked.InputTag("GenParticles") # -- miniAOD -- #
 
 for key in weightmap:
   if key=="AlphaSScale":
