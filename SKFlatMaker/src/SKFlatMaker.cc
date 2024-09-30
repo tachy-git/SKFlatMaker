@@ -67,7 +67,8 @@ TriggerTokenPAT                     ( consumes< edm::TriggerResults >           
 TriggerObjectToken                  ( consumes< std::vector<pat::TriggerObjectStandAlone> > (iConfig.getUntrackedParameter<edm::InputTag>("TriggerObject")) ),
 
 // -- Else -- //
-GenEventInfoToken                   ( consumes< GenEventInfoProduct >                       (iConfig.getUntrackedParameter<edm::InputTag>("GenEventInfo")) ),
+//GenEventInfoToken                   ( consumes< GenEventInfoProduct >                       (iConfig.getUntrackedParameter<edm::InputTag>("GenEventInfo")) ),
+// Not stored in our Herwig samples
 BeamSpotToken                       ( consumes< reco::BeamSpot >                            (iConfig.getUntrackedParameter<edm::InputTag>("BeamSpot")) ),
 PrimaryVertexToken                  ( consumes< reco::VertexCollection >                    (iConfig.getUntrackedParameter<edm::InputTag>("PrimaryVertex")) ),
 TrackToken                          ( consumes< edm::View<reco::Track> >                    (iConfig.getUntrackedParameter<edm::InputTag>("Track")) ),
@@ -2850,7 +2851,7 @@ void SKFlatMaker::fillGENInfo(const edm::Event &iEvent)
     gen_mother_index.push_back( idx );
     
   }
-   
+  /* 
   edm::Handle<GenEventInfoProduct> genEvtInfo;
   iEvent.getByToken(GenEventInfoToken, genEvtInfo);
   gen_weight = genEvtInfo->weight();
@@ -2873,7 +2874,7 @@ void SKFlatMaker::fillGENInfo(const edm::Event &iEvent)
   genWeight_id2 = genEvtInfo->pdf()->id.second;
   genWeight_alphaQCD = genEvtInfo->alphaQCD();
   genWeight_alphaQED = genEvtInfo->alphaQED();
-  
+  */
 }
 
 
